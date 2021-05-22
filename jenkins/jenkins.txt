@@ -1,0 +1,70 @@
+
+## Configuracion cloud
+Kubernetes URL : https://kubernetes.default:443
+namespace : jenkins
+Jenkins URL : http://jenkins.jenkins.svc.cluster.local:8080
+Jenkins tunnel : jenkins-agent.jenkins.svc.cluster.local:50000
+pod temaplates :
+- name : jenkins-slave
+  namespace : jenkins
+  labels : jenkins-slave
+  container :
+    name : jnlp
+    image : jenkins-slave:0.0.1
+    work directory : /home/jenkins
+    Allocate pseudo-TTY : seleccionar
+  volume:
+    tipo : hostpath
+    hostpath : /var/run/docker.sock
+    mount path : /var/run/docker.sock
+- name : jenkins-slave-node
+  namespace : jenkins
+  labels : jenkins-slave-node
+  container :
+    name : jnlp
+    image : jenkins-slave-node:0.0.1
+    work directory : /home/jenkins/agent
+    Allocate pseudo-TTY : seleccionar
+
+## Configuracion pipeline
+
+
+node('jenkins-slave-node') {
+    
+    stage('instalar app') {
+        sh(script: """
+            git clone https://github.com/lgdiazf-unal/ci-cd.git
+            cd ci-cd/api
+            npm install
+        """)
+    }
+    
+    parallel firstBranch: {
+        stage('test app') {
+        sh(script: """
+            cd ci-cd/api
+            npm test -- test/init.test.js
+        """)
+    }
+       
+    }, secondBranch: {
+        stage('correr app') {
+            sh(script : """
+                cd ci-cd/api
+                node index.js
+            """)
+        }
+    },
+    failFast: false
+}
+
+node('jenkins-slave') {
+    
+     stage('bluid') {
+        sh(script: """
+            git clone https://github.com/lgdiazf-unal/ci-cd.git
+            cd ci-cd/api
+            docker run --rm alpine /bin/sh -c "echo hello world"
+        """)
+    }
+}
