@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: node
+  name: node
+  namespace: dev-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: node
+    spec:
+      volumes:
+      - name: vol
+        persistentVolumeClaim:
+          claimName: pvc-node
+      containers:
+      - image: node:12.18-slim
+        name: node
+        command: ["/bin/sh"]
+        args: ["-c", "sleep 365d"]
+        volumeMounts:
+        - name: vol
+          mountPath: /mnt
