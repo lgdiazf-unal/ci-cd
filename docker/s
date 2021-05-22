@@ -1,0 +1,99 @@
+Name:                      jenkins-slave-node-q1x6d
+Namespace:                 jenkins
+Priority:                  0
+Node:                      luis/192.168.0.8
+Start Time:                Sat, 22 May 2021 18:40:36 +0000
+Labels:                    jenkins=slave
+                           jenkins/label=jenkins-slave-node
+                           jenkins/label-digest=99a36a835cc504696ba268f2d67da16498dd3269
+Annotations:               cni.projectcalico.org/podIP: 10.10.48.221/32
+                           cni.projectcalico.org/podIPs: 10.10.48.221/32
+Status:                    Terminating (lasts <invalid>)
+Termination Grace Period:  30s
+IP:                        10.10.48.221
+IPs:
+  IP:  10.10.48.221
+Containers:
+  node:
+    Container ID:  docker://c0e56f6e0e655fe4b645c3efc8a7aff4daacc721730649da94d91f88f34a8d04
+    Image:         jenkins-slave-node:0.0.1
+    Image ID:      docker://sha256:ae3ec4920af722c9a75a20f103fbd8331a87d89743be263c77d791154fe56fef
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sleep
+    Args:
+      9999999
+    State:          Running
+      Started:      Sat, 22 May 2021 18:40:38 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /home/jenkins/agent from workspace-volume (rw)
+      /var/run/docker.sock from volume-0 (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-zlvml (ro)
+  jnlp:
+    Container ID:   docker://2ff5bfc17ad8da75537d9bb906eee0e07bab7fe6e91d6565b4025ca552a2c72b
+    Image:          jenkins-slave:0.0.1
+    Image ID:       docker://sha256:75f2f4826b3364d3e9861f318bfb2c4320a632e672e08a01d1426fa61a0cbb9e
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Sat, 22 May 2021 18:40:38 +0000
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     512m
+      memory:  512Mi
+    Requests:
+      cpu:     512m
+      memory:  512Mi
+    Environment:
+      JENKINS_SECRET:         bdb0edbfe8b07f9940fbb6f96d11ca0a85c69c85f4059d87a4e994121fd11fff
+      JENKINS_TUNNEL:         jenkins-agent.jenkins.svc.cluster.local:50000
+      JENKINS_AGENT_NAME:     jenkins-slave-node-q1x6d
+      JENKINS_NAME:           jenkins-slave-node-q1x6d
+      JENKINS_AGENT_WORKDIR:  /home/jenkins
+      JENKINS_URL:            http://jenkins.jenkins.svc.cluster.local:8080/
+    Mounts:
+      /home/jenkins from workspace-volume (rw)
+      /var/run/docker.sock from volume-0 (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-zlvml (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  volume-0:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/run/docker.sock
+    HostPathType:  
+  workspace-volume:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  kube-api-access-zlvml:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              kubernetes.io/os=linux
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  4m9s  default-scheduler  Successfully assigned jenkins/jenkins-slave-node-q1x6d to luis
+  Normal  Pulled     4m8s  kubelet            Container image "jenkins-slave-node:0.0.1" already present on machine
+  Normal  Created    4m7s  kubelet            Created container node
+  Normal  Started    4m7s  kubelet            Started container node
+  Normal  Pulled     4m7s  kubelet            Container image "jenkins-slave:0.0.1" already present on machine
+  Normal  Created    4m7s  kubelet            Created container jnlp
+  Normal  Started    4m7s  kubelet            Started container jnlp
+  Normal  Killing    13s   kubelet            Stopping container node
+  Normal  Killing    13s   kubelet            Stopping container jnlp

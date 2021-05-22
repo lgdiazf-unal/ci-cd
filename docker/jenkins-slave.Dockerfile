@@ -6,7 +6,8 @@ RUN apt-get install -y sudo \
     ca-certificates \
     curl \
     gnupg \
-    lsb-release
+    lsb-release \
+    git
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
 RUN echo \
