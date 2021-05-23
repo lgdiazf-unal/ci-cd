@@ -1,6 +1,6 @@
 node('jenkins-slave-node') {
     
-    stage('instalar app') {
+    stage('instalar app para prueba') {
         sh(script: """
             git clone https://github.com/lgdiazf-unal/ci-cd.git
             cd ci-cd/api
