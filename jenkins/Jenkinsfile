@@ -1,0 +1,39 @@
+node('jenkins-slave-node') {
+    
+    stage('instalar app') {
+        sh(script: """
+            git clone https://github.com/lgdiazf-unal/ci-cd.git
+            cd ci-cd/api
+            npm install
+        """)
+    }
+    
+    parallel firstBranch: {
+        stage('test app') {
+        sh(script: """
+            cd ci-cd/api
+            npm test -- test/init.test.js
+        """)
+    }
+       
+    }, secondBranch: {
+        stage('correr app') {
+            sh(script : """
+                cd ci-cd/api
+                node index.js
+            """)
+        }
+    },
+    failFast: false
+}
+
+node('jenkins-slave') {
+    
+     stage('bluid') {
+        sh(script: """
+            git clone https://github.com/lgdiazf-unal/ci-cd.git
+            cd ci-cd/api
+            docker run --rm alpine /bin/sh -c "echo hello world"
+        """)
+    }
+}
