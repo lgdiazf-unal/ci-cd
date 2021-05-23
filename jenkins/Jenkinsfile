@@ -29,7 +29,7 @@ node('jenkins-slave-node') {
 
 node('jenkins-slave') {
     
-     stage('bluid') {
+     stage('bluid docker') {
         sh(script: """
             git clone https://github.com/lgdiazf-unal/ci-cd.git
             cd ci-cd/api
